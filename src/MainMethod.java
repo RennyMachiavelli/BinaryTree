@@ -14,18 +14,21 @@ public class MainMethod {
         nt.insertTreeRec(new NumberNode(-1));
         */
         nt.insertTreeRec(new NumberNode(7));
-        /*nt.insertTreeRec(new NumberNode(3));
-        nt.insertTreeRec(new NumberNode(2));
-        nt.insertTreeRec(new NumberNode(10));*/
         nt.insertTreeRec(new NumberNode(9));
         nt.insertTreeRec(new NumberNode(5));
+        nt.insertTreeRec(new NumberNode(3));
+        nt.insertTreeRec(new NumberNode(4));
+        nt.insertTreeRec(new NumberNode(10));
+        nt.insertTreeRec(new NumberNode(8));
+
+
 
         /*nt.displayTree();
         nt.removeNode(new NumberNode(-1));
         System.out.println();
         */
         nt.displayTree();
-        nt.removeNode(new NumberNode(7));
+        nt.removeNode(new NumberNode(9));
         System.out.println();
         nt.displayTree();
         /*

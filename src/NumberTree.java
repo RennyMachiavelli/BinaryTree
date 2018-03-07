@@ -89,6 +89,9 @@ public class NumberTree {
                         //node with child on right only
                     else if (currentNode.getLeft().getLeft() == null && currentNode.getLeft().getRight() != null)
                         currentNode.setLeft(currentNode.getLeft().getRight());
+                    else if (currentNode.getLeft().getLeft() != null && currentNode.getLeft().getRight() != null){
+                        traverseTree(currentNode.getRight(),numberNode);
+                    }
                 }
             }
             else if (currentNode.getNumber() < numberNode.getNumber()) {
