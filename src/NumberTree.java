@@ -7,23 +7,21 @@ public class NumberTree {
 
     public void insertTreeRep(NumberNode numberNode) {
         boolean finished = false;
-        if(root == null)
+        if (root == null)
             root = numberNode;
         else {
             NumberNode currentNode = root;
             while (!finished) {
                 if (currentNode.getNumber() < numberNode.getNumber())
-                    if(currentNode.getLeft() == null) {
+                    if (currentNode.getLeft() == null) {
                         currentNode.setLeft(numberNode);
                         finished = true;
-                    }
-                    else
+                    } else
                         currentNode = currentNode.getLeft();
-                else if(currentNode.getRight() == null){
+                else if (currentNode.getRight() == null) {
                     currentNode.setRight(numberNode);
                     finished = true;
-                }
-                else
+                } else
                     currentNode = currentNode.getRight();
             }
         }
@@ -34,20 +32,19 @@ public class NumberTree {
     }
 
     public void insertNode(NumberNode currentNode, NumberNode numberNode) {
-        if(currentNode == null)
+        if (currentNode == null)
             root = numberNode;
-        else if(numberNode.getNumber() < currentNode.getNumber() ) {
-            if(currentNode.getLeft() == null){
-                currentNode.setLeft(numberNode);
-            }
-            else
-                insertNode(currentNode.getLeft(), numberNode);
-        }
-        else
-            if(currentNode.getRight() == null)
+        else {
+            if (numberNode.getNumber() < currentNode.getNumber()) {
+                if (currentNode.getLeft() == null)
+                    currentNode.setLeft(numberNode);
+                else
+                    insertNode(currentNode.getLeft(), numberNode);
+            } else if (currentNode.getRight() == null)
                 currentNode.setRight(numberNode);
             else
-                insertNode(currentNode.getRight(),numberNode);
+                insertNode(currentNode.getRight(), numberNode);
+        }
     }
 
     public void displayTree() {
@@ -55,7 +52,7 @@ public class NumberTree {
     }
 
     public void displayNode(NumberNode currentNode) {
-        if(currentNode == null)
+        if (currentNode == null)
             System.out.println("The tree is empty");
         else {
             if (currentNode.getLeft() != null)
@@ -63,69 +60,38 @@ public class NumberTree {
 
             System.out.print(currentNode.getNumber() + "->");
 
-            if(currentNode.getRight() != null)
+            if (currentNode.getRight() != null)
                 displayNode(currentNode.getRight());
         }
     }
-    public void removeNode(NumberNode numberNode) {
-        traverseTree(root, numberNode);
+
+    public void deleteTree(NumberNode numberNode) {
+        root = deleteNode(root, numberNode);
     }
-    public void traverseTree(NumberNode currentNode, NumberNode numberNode) {
-        if(currentNode == null) {
-            System.out.println("Tree is empty.");
-        }
+
+    public NumberNode deleteNode(NumberNode currentNode, NumberNode numberNode) {
+        if (currentNode == null)
+            return (currentNode);
+
+        if (currentNode.getNumber() < numberNode.getNumber())
+            currentNode.setRight(deleteNode(currentNode.getRight(), numberNode));
+        else if (currentNode.getNumber() > numberNode.getNumber())
+            currentNode.setLeft(deleteNode(currentNode.getLeft(), numberNode));
         else {
-            if (currentNode.getNumber() > numberNode.getNumber()) {
-                //go left
-                if (currentNode.getLeft().getNumber() != numberNode.getNumber())
-                    traverseTree(currentNode.getLeft(), numberNode);
-                else {
-                    //leaf node
-                    if (currentNode.getLeft().getLeft() == null && currentNode.getLeft().getRight() == null)
-                        currentNode.setLeft(null);
-                        //node with child on left only
-                    else if (currentNode.getLeft().getLeft() != null && currentNode.getLeft().getRight() == null)
-                        currentNode.setLeft(currentNode.getLeft().getLeft());
-                        //node with child on right only
-                    else if (currentNode.getLeft().getLeft() == null && currentNode.getLeft().getRight() != null)
-                        currentNode.setLeft(currentNode.getLeft().getRight());
-                    else if (currentNode.getLeft().getLeft() != null && currentNode.getLeft().getRight() != null){
-                        traverseTree(currentNode.getRight(),numberNode);
-                    }
-                }
-            }
-            else if (currentNode.getNumber() < numberNode.getNumber()) {
-                //go right
-                if (currentNode.getRight().getNumber() != numberNode.getNumber())
-                    traverseTree(currentNode.getRight(), numberNode);
-                else {
-                    //leaf node
-                    if (currentNode.getRight().getLeft() == null && currentNode.getRight().getRight() == null)
-                        currentNode.setRight(null);
-                        //node with child on left only
-                    else if (currentNode.getRight().getLeft() != null && currentNode.getRight().getRight() == null)
-                        currentNode.setRight(currentNode.getRight().getLeft());
-                        //node with child on right only
-                    else if (currentNode.getRight().getLeft() == null && currentNode.getRight().getRight() != null)
-                        currentNode.setRight(currentNode.getRight().getRight());
-                }
-            }
-            else if (currentNode.getNumber() == numberNode.getNumber()) {
-                if (currentNode.getLeft() == null && currentNode.getRight() == null)
-                    traverseTree(null, numberNode);
-                else if (currentNode.getLeft() != null && currentNode.getRight() == null) {
-                    currentNode.setNumber(currentNode.getLeft().getNumber());
-                    currentNode.setLeft(null);
-                }
-                else if (currentNode.getLeft() == null && currentNode.getRight() != null) {
-                    currentNode.setNumber(currentNode.getRight().getNumber());
-                    currentNode.setRight(null);
-                }
-                else if (currentNode.getLeft() != null && currentNode.getRight() != null) {
-                    currentNode.setNumber(currentNode.getLeft().getNumber());
-                    currentNode.setLeft(null);
-                }
-            }
+            if (currentNode.getLeft() == null)
+                return (currentNode.getRight());
+            else if (currentNode.getRight() == null)
+                return (currentNode.getLeft());
+
+            currentNode.setNumber(minValue(currentNode.getRight()));
+            currentNode.setRight((deleteNode(currentNode.getRight(), currentNode)));
         }
+        return (currentNode);
+    }
+    public int minValue(NumberNode numberNode) {
+        while(numberNode.getLeft() != null){
+            numberNode = numberNode.getLeft();
+        }
+        return(numberNode.getNumber());
     }
 }

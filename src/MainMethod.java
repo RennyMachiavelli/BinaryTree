@@ -28,7 +28,7 @@ public class MainMethod {
         System.out.println();
         */
         nt.displayTree();
-        nt.removeNode(new NumberNode(9));
+        nt.deleteTree(new NumberNode(9));
         System.out.println();
         nt.displayTree();
         /*
